@@ -154,43 +154,38 @@ export const PUBLIC_EVENT_SUB_FILTER_ROWS = [
 
 export const PUBLIC_EVENT_SUB_FILTER_TAGS = {
   unrest: ["war", "revolution"],
-  lifestyle: ["life"],
+  lifestyle: ["life", "food", "sport"],
+  industry: ["industry", "energy", "transport"],
   design: ["design", "architecture"],
   visual: ["visual", "game"],
+  thought: ["thought", "religion"],
+  rights: ["rights", "labor", "gender"],
+  economy: ["economy", "colonialism"],
 };
 
 export const PUBLIC_EVENT_SUB_FILTER_ICONS = {
-  thought: ["thought"],
-  rights: ["rights-expand", "rights-suppress"],
-  law: ["law"],
-  unrest: ["war", "revolution"],
-  politics: ["politics-japan", "politics-world"],
-  economy: ["economy"],
-
-  literature: [
-    "literature-japan",
-    "literature-world",
-  ],
+  thought: ["brain", "sun-moon"],
+  rights: ["person-standing", "hard-hat", "venus-and-mars"],
+  law: ["scale"],
+  unrest: ["swords", "flag"],
+  politics: ["landmark", "globe"],
+  economy: ["chart-no-axes-column-increasing", "ship"],
+  literature: ["book-open", "library-big"],
   music: ["music"],
-  art: ["art"],
-  visual: ["visual-work", "visual-media"],
-  communication: ["communication"],
-  media: ["media"],
-  industry: ["industry"],
-
-  technology: [
-    "technology-innovation",
-    "technology-implementation",
-  ],
-  math: ["math"],
-  matter: ["matter-physics", "matter-material"],
-  biomed: ["life-science", "life-health"],
-  environment: ["environment"],
-  space: ["space"],
-
-  stage: ["stage"],
-  design: ["design"],
-  lifestyle: ["fallback-culture"],
+  stage: ["drama"],
+  art: ["palette"],
+  design: ["ruler", "building-2"],
+  visual: ["clapperboard", "monitor-play", "gamepad-2"],
+  communication: ["radio-tower"],
+  media: ["newspaper"],
+  technology: ["lightbulb", "wrench"],
+  industry: ["factory", "zap", "train-front"],
+  lifestyle: ["house", "wheat", "dumbbell"],
+  math: ["sigma"],
+  matter: ["atom", "box"],
+  biomed: ["dna", "stethoscope"],
+  environment: ["leaf"],
+  space: ["orbit"],
 };
 
 // TSVとRuntime Eventは同じイベントフィールド名を使う。

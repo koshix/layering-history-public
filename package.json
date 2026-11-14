@@ -1,7 +1,7 @@
 {
   "name": "layering-history",
   "private": true,
-  "version": "5.1.1",
+  "version": "5.2.0",
   "type": "module",
   "scripts": {
     "build:events": "node scripts/build-events.mjs",
@@ -18,6 +18,7 @@
     "check": "npm run lint && npm run build:events && npm run validate:personal && npm test"
   },
   "dependencies": {
+    "lucide-react": "1.73.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },

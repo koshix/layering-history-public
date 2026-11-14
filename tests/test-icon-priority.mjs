@@ -8,7 +8,41 @@ import {
 } from "../src/event-icon.js";
 
 test("representative icon priority remains fixed", () => {
-  assert.deepEqual(SUB_ICON_PRIORITY, ["game","architecture","revolution","religion","design","stage","communication","media","environment","industry","space","life","war","biomed","math","law","visual","economy","music","matter","rights","thought","art","politics","technology","literature"]);
+  assert.deepEqual(SUB_ICON_PRIORITY, [
+    "sport",
+    "game",
+    "food",
+    "energy",
+    "revolution",
+    "architecture",
+    "religion",
+    "transport",
+    "labor",
+    "design",
+    "stage",
+    "gender",
+    "communication",
+    "colonialism",
+    "life",
+    "environment",
+    "industry",
+    "media",
+    "technology",
+    "space",
+    "war",
+    "math",
+    "visual",
+    "biomed",
+    "economy",
+    "law",
+    "music",
+    "matter",
+    "art",
+    "rights",
+    "thought",
+    "literature",
+    "politics",
+  ]);
 });
 
 test("game uses its own representative icon", () => {
@@ -62,13 +96,20 @@ test("architecture covers buildings and urban planning", () => {
     count++;
     ids.add(cells[idIndex]);
 
+    const expectedIcon = [
+      "1909-first-kokugikan",
+      "1964-1h9anrc",
+    ].includes(cells[idIndex])
+      ? "sport"
+      : "architecture";
+
     assert.equal(
       resolvePublicEventIcon({
         id: cells[idIndex],
         primary: cells[primaryIndex],
         subs,
       }),
-      "architecture",
+      expectedIcon,
       cells[idIndex]
     );
   }
@@ -81,7 +122,7 @@ test("architecture covers buildings and urban planning", () => {
 
 test("religion icon priority covers 24 of 30 events", () => {
   assert.equal(PUBLIC_EVENT_ICON_NAMES.has("religion"), true);
-  assert.equal(SUB_ICON_PRIORITY.length, 26);
+  assert.equal(SUB_ICON_PRIORITY.length, 33);
 
   const text = readFileSync(
     new URL("../public/events.tsv", import.meta.url),
@@ -126,5 +167,24 @@ test("religion icon priority covers 24 of 30 events", () => {
       subs: ["religion"],
     }),
     "religion"
+  );
+});
+
+test("refrozen priority covers all 33 official subs", async () => {
+  const { PUBLIC_EVENT_SUB_TAG_KEYS } =
+    await import("../src/event-schema.js");
+
+  assert.equal(SUB_ICON_PRIORITY.length, 33);
+  assert.equal(new Set(SUB_ICON_PRIORITY).size, 33);
+
+  assert.deepEqual(
+    [...SUB_ICON_PRIORITY].sort(),
+    [...PUBLIC_EVENT_SUB_TAG_KEYS].sort()
+  );
+
+  assert.equal(SUB_ICON_PRIORITY[0], "sport");
+  assert.ok(
+    SUB_ICON_PRIORITY.indexOf("transport")
+    < SUB_ICON_PRIORITY.indexOf("technology")
   );
 });

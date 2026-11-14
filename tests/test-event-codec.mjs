@@ -100,7 +100,7 @@ assert.deepEqual(
 );
 assert.deepEqual(
   PUBLIC_EVENT_SUB_FILTER_TAGS.lifestyle,
-  ["life"]
+  ["life", "food", "sport"]
 );
 
 assert.deepEqual(

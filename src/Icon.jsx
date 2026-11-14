@@ -1,34 +1,21 @@
 import {
-  PUBLIC_EVENT_ICON_NAMES,
-} from "./event-icon.js";
-
-const ICON_NAMES = new Set([
-  ...PUBLIC_EVENT_ICON_NAMES,
-  "flag",
-]);
+  LUCIDE_EVENT_ICONS,
+  LUCIDE_FILTER_ICONS,
+} from "./lucide-icon-map.js";
 
 export default function Icon({ name, color, size = 18 }) {
-  const iconName = ICON_NAMES.has(name) ? name : "fallback-work";
+  const SvgIcon =
+    LUCIDE_EVENT_ICONS[name] ??
+    LUCIDE_FILTER_ICONS[name] ??
+    LUCIDE_EVENT_ICONS["fallback-work"];
 
   return (
-    <svg
-      viewBox="0 0 24 24"
-      width={size}
-      height={size}
-      fill="none"
-      stroke={color}
-      color={color}
-      strokeWidth="1.7"
-      strokeLinecap="round"
-      strokeLinejoin="round"
+    <SvgIcon
+      size={size}
+      color={color ?? "currentColor"}
+      strokeWidth={1.7}
       style={{ flexShrink: 0, marginTop: 2 }}
       aria-hidden="true"
-    >
-      <use
-        href={`${import.meta.env.BASE_URL}icons.svg#icon-${iconName}`}
-        width="100%"
-        height="100%"
-      />
-    </svg>
+    />
   );
 }
