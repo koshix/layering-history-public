@@ -57,7 +57,7 @@ test("seven additional semantic icons map to Lucide", async () => {
     transport: "TrainFront",
     labor: "HardHat",
     gender: "VenusAndMars",
-    colonialism: "Ship",
+    colonialism: "Map",
   };
 
   for (const [tag, name] of Object.entries(expected)) {

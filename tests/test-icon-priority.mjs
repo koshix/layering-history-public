@@ -120,7 +120,7 @@ test("architecture covers buildings and urban planning", () => {
   assert.ok(ids.has("1615-katsura-villa"));
 });
 
-test("religion icon priority covers 24 of 30 events", () => {
+test("religion icon priority covers 24 of 32 events", () => {
   assert.equal(PUBLIC_EVENT_ICON_NAMES.has("religion"), true);
   assert.equal(SUB_ICON_PRIORITY.length, 33);
 
@@ -155,11 +155,15 @@ test("religion icon priority covers 24 of 30 events", () => {
     counts.set(icon, (counts.get(icon) ?? 0) + 1);
   }
 
-  assert.equal(total, 30);
+  assert.equal(total, 32);
   assert.equal(counts.get("religion"), 24);
   assert.equal(counts.get("architecture"), 5);
   assert.equal(counts.get("revolution"), 1);
-  assert.equal(counts.size, 3);
+  // 1508年のシスティーナ礼拝堂天井画は美術を代表表示
+  assert.equal(counts.get("art"), 1);
+  // インド独立・印パ分離は最新監査で世界政治表示へ変更。
+  assert.equal(counts.get("politics-world"), 1);
+  assert.equal(counts.size, 5);
 
   assert.equal(
     resolvePublicEventIcon({

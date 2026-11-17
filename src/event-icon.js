@@ -440,8 +440,195 @@ function hasJapan(event) {
   return String(event?.region ?? "").includes("日本");
 }
 
+// Safari visual audit 2026-11-15: representative icons only.
+// Classification tags and frozen priority are unchanged.
+export const SAFARI_EVENT_ICON_OVERRIDES = Object.freeze({
+  "1947-atomic-bomb-literature": "literature-japan",
+  "1952-o1u4fc": "literature-japan",
+  "1952-1nyn8rb": "literature-japan",
+  "1975-18tui2v": "literature-japan",
+  "1994-okuizumi-ishi-no-raireki": "literature-japan",
+  "2017-wakatake-orabora": "literature-japan",
+  "2020-usami-oshi-moyu": "literature-japan",
+  "1961-fanon-wretched-earth": "colonialism",
+  "1962-campbells-soup-cans": "art",
+  "1973-enter-the-dragon": "visual-work",
+  "1958-integrated-circuit": "fallback-computer",
+  "1959-cobol-early-draft": "fallback-computer",
+  "1964-ibm-system360": "fallback-computer",
+  "1965-moores-law": "fallback-computer",
+  "1970-intel-1103-dram": "fallback-computer",
+  "1975-altair-8800": "fallback-computer",
+  "1977-apple-ii": "fallback-computer",
+  "1981-ibm-pc": "fallback-computer",
+  "1982-nec-pc-9801": "fallback-computer",
+  "2007-android-announcement": "fallback-computer",
+  "1942-chicago-pile-1": "technology-innovation",
+});
+
+// Thought audit 2026-11-15, batch 1.
+// Newer display decisions supersede historical L1 icons.
+export const THOUGHT_EVENT_ICON_OVERRIDES = Object.freeze({
+  "1508-michelangelo-sistine-ceiling": "art",
+  "1657-comenius-didactica-magna": "fallback-education",
+  "1662-17ugskf": "fallback-education",
+  "1713-1f692r9": "life-health",
+  "1748-spirit-of-laws": "law",
+  "1762-rousseau-emile": "fallback-education",
+  "1792-wollstonecraft-rights-woman": "gender",
+  "1890-imperial-rescript-education": "fallback-education",
+  "1906-duhem-physical-theory": "fallback-science",
+  "1936-piaget-origins-intelligence": "fallback-science",
+});
+
+// Thought, unrest and industry audit 2026-11-15, batch 2.
+// Newer display decisions; historical overrides remain intact.
+export const THOUGHT_BATCH2_ICON_OVERRIDES = Object.freeze({
+  "1946-17jncbd": "literature-japan",
+  "1950-turing-computing-machinery-intelligence": "fallback-computer",
+  "1965-lengrand-lifelong-education-working-paper": "fallback-education",
+  "1971-illich-deschooling-society": "fallback-education",
+  "1980-papert-mindstorms-book": "fallback-computer",
+  "1983-gnu-announcement": "fallback-computer",
+  "1989-crenshaw-intersection-race-sex": "gender",
+  "1933-holocaust": "rights-suppress",
+  "1943-colossus-computer": "technology-innovation",
+  "1979-three-mile-island": "environment",
+});
+
+// Thought and rights audit, 2026-11-15.
+// New decisions supersede older visual audits.
+export const THOUGHT_RIGHTS_EVENT_ICON_OVERRIDES = Object.freeze({
+  "1919-dalton-school-parkhurst": "fallback-education",
+  "1919-first-waldorf-school": "fallback-education",
+  "1921-eight-educational-claims-conference": "fallback-education",
+  "1936-1leh3e2": "art",
+  "1941-national-school-order": "fallback-education",
+  "1946-1n7mkvy": "rights-suppress",
+  "1947-first-course-of-study": "fallback-education",
+  "1950-pnuwfy": "fallback-education",
+  "1970-bourdieu-passeron-reproduction": "fallback-education",
+  "1923-4u55lg": "fallback-education",
+  "1946-women-first-general-election": "gender",
+  "1946-us-education-mission-report-japan": "fallback-education",
+  "1949-1knpnjn": "fallback-education",
+  "1967-oshiro-cocktail-party": "literature-japan",
+  "1968-freire-pedagogy-oppressed": "fallback-education",
+  "1971-lee-kinuta-o-utsu-onna": "literature-japan",
+  "1979-special-school-compulsory-education": "fallback-education",
+  "1999-6oyqwx": "literature-world",
+  "2004-opk6wy": "literature-world",
+  "2016-educational-opportunity-act-japan": "fallback-education",
+  "2017-metoo-global": "gender",
+});
+
+// Law to education representative icon audit, 2026-11-15.
+// Preserve law subs and historical L2 decisions.
+export const LAW_EDUCATION_EVENT_ICON_OVERRIDES = Object.freeze({
+  "1903-national-textbooks-primary-japan": "fallback-education",
+  "1908-six-year-compulsory-education": "fallback-education",
+  "1918-xmrh5b": "fallback-education",
+  "1935-147fdzs": "fallback-education",
+  "1943-national-normal-schools": "fallback-education",
+  "1947-b8zdub": "fallback-education",
+  "1948-diet-resolutions-imperial-rescript-education": "fallback-education",
+  "1956-local-education-administration-law": "fallback-education",
+  "1991-university-standards-deregulation": "fallback-education",
+  "2002-1wi6yqe": "fallback-education",
+  "2004-national-university-corporations": "fallback-education",
+  "2006-basic-act-education-revision": "fallback-education",
+  "2022-teacher-license-renewal-abolished": "fallback-education",
+});
+
+// Teacher license renewal introduction, 2009-04-01.
+// Preserve law classification; display as education history.
+export const TEACHER_LICENSE_RENEWAL_EVENT_ICON_OVERRIDES = Object.freeze({
+  "2009-teacher-license-renewal-introduced": "fallback-education",
+});
+
+// Politics and economy display audit, 2026-11-15.
+// New display decisions supersede historical audits.
+// SQL is handled by its subs change, not an icon override.
+export const POLITICS_ECONOMY_EVENT_ICON_OVERRIDES = Object.freeze({
+  "1901-australian-federation": "colonialism",
+  "1904-weber-protestant-ethic": "thought",
+  "1947-india-pakistan-partition": "politics-world",
+  "1950-n44pj0": "fallback-education",
+  "1957-ghana-independence": "colonialism",
+  "1960-decolonization-declaration": "colonialism",
+  "1963-oau-founded": "colonialism",
+  "1969-ccs3ep": "economy",
+  "1973-chile-coup-pinochet": "rights-suppress",
+  "1973-university-of-tsukuba-opens": "fallback-education",
+  "1975-png-independence": "colonialism",
+  "1981-tanaka-nantonaku-crystal": "literature-japan",
+  "1984-ad-hoc-council-education": "fallback-education",
+  "1987-kcv3fe": "fallback-computer",
+  "1990-jpop-cd-market": "music",
+  "2000-8guh0p": "economy",
+  "2001-china-wto-accession": "economy",
+  "2004-sob65j": "economy",
+  "2007-national-achievement-survey-japan": "fallback-education",
+  "2008-spotify-launch": "music",
+  "2016-brexit-referendum": "politics-world",
+});
+
+// Literature review, 2026-11-15.
+// Three representative display overrides.
+// Historical audit definitions remain unchanged.
+export const LITERATURE_EVENT_ICON_OVERRIDES = Object.freeze({
+  "1516-more-utopia": "literature-world",
+  "1580-montaigne-essays": "literature-world",
+  "1934-night-galactic-railroad": "literature-japan",
+});
+
+// Music classification and icon audit, 2026-11-15.
+// Preserve older L1/L2 and politics/economy audit records.
+export const MUSIC_EVENT_ICON_OVERRIDES = Object.freeze({
+  "1956-illiac-music-i": "fallback-computer",
+  "1964-moog-synthesizer": "technology-implementation",
+  "1980-roland-tr808": "technology-implementation",
+  "2008-spotify-launch": "media",
+});
+
 export function resolvePublicEventIcon(event) {
   const subs = eventSubs(event);
+
+  if (Object.hasOwn(MUSIC_EVENT_ICON_OVERRIDES, event?.id)) {
+    return MUSIC_EVENT_ICON_OVERRIDES[event.id];
+  }
+
+  if (Object.hasOwn(LITERATURE_EVENT_ICON_OVERRIDES, event?.id)) {
+    return LITERATURE_EVENT_ICON_OVERRIDES[event.id];
+  }
+
+  if (Object.hasOwn(POLITICS_ECONOMY_EVENT_ICON_OVERRIDES, event?.id)) {
+    return POLITICS_ECONOMY_EVENT_ICON_OVERRIDES[event.id];
+  }
+
+  if (Object.hasOwn(TEACHER_LICENSE_RENEWAL_EVENT_ICON_OVERRIDES, event?.id)) {
+    return TEACHER_LICENSE_RENEWAL_EVENT_ICON_OVERRIDES[event.id];
+  }
+
+  if (Object.hasOwn(LAW_EDUCATION_EVENT_ICON_OVERRIDES, event?.id)) {
+    return LAW_EDUCATION_EVENT_ICON_OVERRIDES[event.id];
+  }
+
+  if (Object.hasOwn(THOUGHT_RIGHTS_EVENT_ICON_OVERRIDES, event?.id)) {
+    return THOUGHT_RIGHTS_EVENT_ICON_OVERRIDES[event.id];
+  }
+
+  if (Object.hasOwn(THOUGHT_EVENT_ICON_OVERRIDES, event?.id)) {
+    return THOUGHT_EVENT_ICON_OVERRIDES[event.id];
+  }
+
+  if (Object.hasOwn(THOUGHT_BATCH2_ICON_OVERRIDES, event?.id)) {
+    return THOUGHT_BATCH2_ICON_OVERRIDES[event.id];
+  }
+
+  if (Object.hasOwn(SAFARI_EVENT_ICON_OVERRIDES, event?.id)) {
+    return SAFARI_EVENT_ICON_OVERRIDES[event.id];
+  }
 
   if (Object.hasOwn(L1_EVENT_ICON_OVERRIDES, event?.id)) {
     return L1_EVENT_ICON_OVERRIDES[event.id];

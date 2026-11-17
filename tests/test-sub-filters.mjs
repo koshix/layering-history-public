@@ -138,7 +138,7 @@ test("integrated filter icon coverage", () => {
       "person-standing", "hard-hat", "venus-and-mars"
     ],
     economy: [
-      "chart-no-axes-column-increasing", "ship"
+      "chart-no-axes-column-increasing", "map"
     ],
     design: ["ruler", "building-2"],
     unrest: ["swords", "flag"],

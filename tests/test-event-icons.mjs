@@ -402,7 +402,11 @@ test("reviewed L2 work icon exceptions", () => {
     const event = events.get(id);
     assert.ok(event, id);
     assert.equal(event.primary, "work", id);
-    assert.equal(resolvePublicEventIcon(event), icon, id);
+    // 2026-11-15の思想監査による最新表示判断を優先する。
+    const currentIcon = id === "1989-crenshaw-intersection-race-sex"
+      ? "gender"
+      : icon;
+    assert.equal(resolvePublicEventIcon(event), currentIcon, id);
   }
 
   // 現行維持候補の3件には例外を適用しない
@@ -454,13 +458,12 @@ test("reviewed L2 science icon exceptions", () => {
     assert.equal(resolvePublicEventIcon(event), icon, id);
   }
 
-  // 固定順位を維持する12件に例外を適用しない
+  // 固定順位を維持する11件に例外を適用しない
   const keeps = new Map([
     ["1879-rmo2g5", "energy"],
     ["1888-tesla-polyphase-ac-motor", "energy"],
     ["1906-1aai833", "technology-innovation"],
     ["1913-bragg-xray-crystallography", "technology-innovation"],
-    ["1942-chicago-pile-1", "energy"],
     ["1971-first-clinical-ct", "technology-innovation"],
     ["1973-mri-development", "technology-innovation"],
     ["1975-kohler-milstein-monoclonal-antibodies", "technology-innovation"],
@@ -470,7 +473,16 @@ test("reviewed L2 science icon exceptions", () => {
     ["1989-1993-blue-led-gan", "technology-innovation"],
   ]);
 
-  assert.equal(keeps.size, 12);
+  assert.equal(keeps.size, 11);
+
+  // 2026-11-15 Safari実使用監査で技術革新へ変更
+  const chicagoPile = events.get("1942-chicago-pile-1");
+  assert.ok(chicagoPile);
+  assert.equal(chicagoPile.primary, "science");
+  assert.equal(
+    resolvePublicEventIcon(chicagoPile),
+    "technology-innovation"
+  );
 
   for (const [id, icon] of keeps) {
     const event = events.get(id);
@@ -514,7 +526,10 @@ test("reviewed L2 society war and colonialism exceptions", () => {
       icon,
       id
     );
-    assert.equal(resolvePublicEventIcon(event), icon, id);
+    const currentIcon = id === "1960-decolonization-declaration"
+      ? "colonialism"
+      : icon;
+    assert.equal(resolvePublicEventIcon(event), currentIcon, id);
   }
 
   // 第1・第2群で現行維持と判断した8件
@@ -576,9 +591,13 @@ test("reviewed L2 society labor and rights exceptions", () => {
       id
     );
 
+    const currentIcon = id === "1946-women-first-general-election"
+      ? "gender"
+      : icon;
+
     assert.equal(
       resolvePublicEventIcon(event),
-      icon,
+      currentIcon,
       id
     );
   }
@@ -715,16 +734,22 @@ test("reviewed L2 culture education computer icons", () => {
       const event = events.get(id);
       assert.ok(event, id);
       assert.equal(event.primary, primary, id);
+      const latestIcons = {
+        "1964-moog-synthesizer": "technology-implementation",
+        "2004-national-university-corporations": "fallback-education",
+      };
+      const currentIcon = latestIcons[id] ?? icon;
+
       assert.equal(
         resolvePublicEventIcon(event),
-        icon,
+        currentIcon,
         id
       );
     }
   }
 
   const keeps = new Map([
-    ["1765-harunobu-nishikie", "technology-implementation"],
+    ["1765-harunobu-nishikie", "art"],
     ["1861-arts-crafts-morris", "art"],
     ["1863-football-association", "sport"],
     ["1924-first-winter-olympics", "sport"],

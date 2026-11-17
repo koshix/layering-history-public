@@ -169,7 +169,7 @@ export const PUBLIC_EVENT_SUB_FILTER_ICONS = {
   law: ["scale"],
   unrest: ["swords", "flag"],
   politics: ["landmark", "globe"],
-  economy: ["chart-no-axes-column-increasing", "ship"],
+  economy: ["chart-no-axes-column-increasing", "map"],
   literature: ["book-open", "library-big"],
   music: ["music"],
   stage: ["drama"],
