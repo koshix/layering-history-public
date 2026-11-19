@@ -338,7 +338,6 @@ const RIGHTS_SUPPRESS_IDS = new Set([
   "1992-bosnian-war-srebrenica",
   "1994-rwanda-genocide",
   "2011-syria-war-displacement-assad-fall",
-  "2021-taliban-kabul-takeover",
 ]);
 
 // Chemistry includes materials science, semiconductors,
@@ -393,7 +392,6 @@ const LIFE_HEALTH_IDS = new Set([
   "1796-jenner-smallpox-vaccination",
   "1846-ether-anesthesia-demonstration",
   "1847-semmelweis-handwashing",
-  "1854-john-snow-cholera",
   "1882-1eoddmg",
   "1908-water-chlorination",
   "1918-influenza-pandemic",
