@@ -58,24 +58,43 @@ assert.equal(
 );
 assert.equal(halfCenturyMarkerOf(2051), null);
 
-assert.deepEqual(preBirthPeriodsOf(1501), []);
+assert.equal(preBirthPeriodsOf(1001).length, 0);
+assert.equal(preBirthPeriodsOf(1501).length, 5);
 assert.deepEqual(preBirthPeriodsOf("invalid"), []);
 
 {
   const periods = preBirthPeriodsOf(1953);
 
-  assert.equal(periods.length, 10);
+  assert.equal(periods.length, 12);
   assert.deepEqual(periods[0], {
-    key: "pre-16-first",
-    label: "16世紀前半",
-    from: 1501,
-    to: 1550,
+    key: "pre-11-century",
+    label: "11世紀",
+    from: 1001,
+    to: 1100,
   });
   assert.deepEqual(periods[1], {
-    key: "pre-16-second",
-    label: "16世紀後半",
-    from: 1551,
+    key: "pre-12-century",
+    label: "12世紀",
+    from: 1101,
+    to: 1200,
+  });
+  assert.deepEqual(periods[5], {
+    key: "pre-16-century",
+    label: "16世紀",
+    from: 1501,
     to: 1600,
+  });
+  assert.deepEqual(periods[7], {
+    key: "pre-18-century",
+    label: "18世紀",
+    from: 1701,
+    to: 1800,
+  });
+  assert.deepEqual(periods[8], {
+    key: "pre-19-first",
+    label: "19世紀前半",
+    from: 1801,
+    to: 1850,
   });
   assert.deepEqual(periods.at(-1), {
     key: "pre-20-second",

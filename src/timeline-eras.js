@@ -78,7 +78,7 @@ export const backgroundEraOf = (year) =>
     (era) => year >= era.from && year <= era.to
   ) ?? null;
 
-export const TIMELINE_START_YEAR = 1501;
+export const TIMELINE_START_YEAR = 1001;
 
 export const preBirthPeriodsOf = (birthYear) => {
   const endYear = Number(birthYear) - 1;
@@ -104,7 +104,14 @@ export const preBirthPeriodsOf = (birthYear) => {
   ) {
     const centuryStart = (century - 1) * 100 + 1;
 
-    const halves = [
+    const halves = century <= 18
+      ? [{
+          key: "century",
+          label: `${century}世紀`,
+          from: centuryStart,
+          to: centuryStart + 99,
+        }]
+      : [
       {
         key: "first",
         label: `${century}世紀前半`,

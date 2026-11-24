@@ -55,7 +55,7 @@ export default function TimelineGroupList({
 
   return (
     <>
-      {/* 16〜19世紀の背景史をまとめる大枠 */}
+      {/* 11〜19世紀の背景史をまとめる大枠 */}
       {earlyHistoryCount > 0 && (
         <section style={{ marginBottom: 12 }}>
           <button
@@ -66,16 +66,16 @@ export default function TimelineGroupList({
             aria-expanded={earlyHistoryOpen}
             style={{
               display: "flex",
-              alignItems: "baseline",
+              alignItems: "center",
               gap: 10,
               width: "100%",
               boxSizing: "border-box",
-              padding: "9px 14px",
-              border: "1px solid #e0e3e7",
-              borderLeft: "4px solid #b8bec6",
-              borderRadius: 8,
-              background: "#f7f8f9",
-              color: "#7b838c",
+              padding: "5px 12px",
+              border: "1px solid #c8dfea",
+              borderLeft: "3px solid #87b9d2",
+              borderRadius: 2,
+              background: "#edf7fc",
+              color: "#34647d",
               cursor: "pointer",
               textAlign: "left",
               fontFamily: font,
@@ -85,20 +85,20 @@ export default function TimelineGroupList({
               style={{
                 fontSize: 13,
                 fontWeight: 600,
-                color: "#7b838c",
+                color: "#34647d",
               }}
             >
-              16〜19世紀
+              11〜19世紀
             </strong>
 
             <span
               style={{
                 fontFamily: mono,
                 fontSize: 11.5,
-                color: "#8a9199",
+                color: "#587d91",
               }}
             >
-              1501–1900
+              1001–1900
             </span>
 
             <span style={{ flex: 1 }} />
@@ -107,7 +107,7 @@ export default function TimelineGroupList({
               style={{
                 fontFamily: mono,
                 fontSize: 11,
-                color: "#9aa0a8",
+                color: "#587d91",
               }}
             >
               {earlyHistoryCount}件
@@ -117,7 +117,7 @@ export default function TimelineGroupList({
               aria-hidden="true"
               style={{
                 fontSize: 10.5,
-                color: "#9299a1",
+                color: "#587d91",
               }}
             >
               {earlyHistoryOpen ? "▼" : "▶"}

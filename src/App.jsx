@@ -371,7 +371,7 @@ export default function App() {
 
     const sharedEventYear = eventYear(ev);
     if (
-      sharedEventYear >= 1501 &&
+      sharedEventYear >= 1001 &&
       sharedEventYear <= 1900
     ) {
       setEarlyHistoryOpen(true);
@@ -423,12 +423,10 @@ export default function App() {
   });
 
   const earlyHistoryGroupKeys = new Set([
-    "pre-16-first",
-    "pre-16-second",
-    "pre-17-first",
-    "pre-17-second",
-    "pre-18-first",
-    "pre-18-second",
+    ...Array.from(
+      { length: 8 },
+      (_, index) => `pre-${index + 11}-century`
+    ),
     "pre-19-first",
     "pre-19-second",
   ]);

@@ -16,6 +16,43 @@ export function normalizeSavedSubFilters(value) {
   ];
 }
 
+export function normalizeSavedClosedStages(value) {
+  const closed = new Set(
+    Array.isArray(value) ? value : []
+  );
+
+  const oldHistoricalKeys = [];
+  for (let century = 16; century <= 19; century++) {
+    oldHistoricalKeys.push(
+      `pre-${century}-first`,
+      `pre-${century}-second`
+    );
+  }
+
+  const allOldHistoricalClosed =
+    oldHistoricalKeys.every((key) => closed.has(key));
+
+  for (let century = 16; century <= 18; century++) {
+    const first = `pre-${century}-first`;
+    const second = `pre-${century}-second`;
+
+    if (closed.has(first) && closed.has(second)) {
+      closed.add(`pre-${century}-century`);
+    }
+
+    closed.delete(first);
+    closed.delete(second);
+  }
+
+  if (allOldHistoricalClosed) {
+    for (let century = 11; century <= 15; century++) {
+      closed.add(`pre-${century}-century`);
+    }
+  }
+
+  return closed;
+}
+
 export default function useDisplaySettings({
   saved = {},
   mainCategories = [],
@@ -95,12 +132,7 @@ export default function useDisplaySettings({
   // 畳んでいる期間(帯)のキー。
   // 新仕様の初回は、期間キー確定後にApp側で全期間を閉じる。
   const [closedStages, setClosedStages] = useState(
-    () =>
-      new Set(
-        Array.isArray(saved.closed)
-          ? saved.closed
-          : []
-      )
+    () => normalizeSavedClosedStages(saved.closed)
   );
   const toggleStage = (key) =>
     setClosedStages((previous) => {

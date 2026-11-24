@@ -640,10 +640,16 @@ assert.deepEqual(emptyAdultPeriods.adultPeriodErrors, []);
 const groupedEvents = [
   {
     id: "too-early",
-    date: "1500",
+    date: "1000",
     cats: ["science"],
     primary: "science",
   },
+  ...[1001, 1500, 1501].map((year) => ({
+    id: `boundary-${year}`,
+    date: String(year),
+    cats: ["science"],
+    primary: "science",
+  })),
   {
     id: "pre",
     date: "1950",
@@ -705,6 +711,23 @@ assert.equal(
     .some((event) => event.id === "too-early"),
   false
 );
+
+for (const [year, key] of [
+  [1001, "pre-11-century"],
+  [1500, "pre-15-century"],
+  [1501, "pre-16-century"],
+]) {
+  const group = timelineGroups.find(
+    (item) => item.key === key
+  );
+  assert.ok(group, key);
+  assert.ok(
+    group.items.some(
+      (event) => event.id === `boundary-${year}`
+    ),
+    `Boundary year ${year} must be included`
+  );
+}
 
 const elementaryGroup = timelineGroups.find(
   (group) => group.key === "elem"
@@ -768,7 +791,7 @@ assert.equal(
   ),
   false
 );
-assert.equal(closedVisibility.shown, 5);
+assert.equal(closedVisibility.shown, 8);
 assert.equal(closedVisibility.myShown, 0);
 
 // 入力groups自体は変更しない。
@@ -826,6 +849,9 @@ assert.equal(
 assert.deepEqual(
   controlTargets.allEventIds,
   [
+    "boundary-1001",
+    "boundary-1500",
+    "boundary-1501",
     "pre",
     "elementary",
     "adult-before-period",
