@@ -21,7 +21,7 @@
 リポジトリをcloneして依存関係をインストールします。
 
 ```bash
-git clone https://github.com/koshix/koshix-timeline-public.git
+git clone https://github.com/koshix/layering-history-public.git
 cd koshix-timeline-public
 npm ci
 npm run check
