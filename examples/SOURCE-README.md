@@ -22,7 +22,7 @@
 
 ```bash
 git clone https://github.com/koshix/layering-history-public.git
-cd koshix-timeline-public
+cd layering-history-public
 npm ci
 npm run check
 npm run dev

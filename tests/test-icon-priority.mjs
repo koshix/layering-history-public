@@ -120,7 +120,7 @@ test("architecture covers buildings and urban planning", () => {
   assert.ok(ids.has("1615-katsura-villa"));
 });
 
-test("religion icon priority covers 24 of 32 events", () => {
+test("religion icon priority preserves audited events and covers medieval additions", () => {
   assert.equal(PUBLIC_EVENT_ICON_NAMES.has("religion"), true);
   assert.equal(SUB_ICON_PRIORITY.length, 33);
 
@@ -144,6 +144,28 @@ test("religion icon priority covers 24 of 32 events", () => {
     const subs = cells[subsIndex].split("|").filter(Boolean);
 
     if (!subs.includes("religion")) continue;
+
+    // Verify medieval additions using the fixed icon priority.
+    const year = Number(cells[idIndex].slice(0, 4));
+
+    if (year >= 1001 && year <= 1500) {
+      const expected = SUB_ICON_PRIORITY.find(
+        (tag) => subs.includes(tag)
+      );
+
+      assert.equal(
+        resolvePublicEventIcon({
+          id: cells[idIndex],
+          primary: cells[primaryIndex],
+          subs,
+        }),
+        expected,
+        cells[idIndex]
+      );
+
+      continue;
+    }
+
     total++;
 
     const icon = resolvePublicEventIcon({
