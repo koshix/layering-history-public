@@ -274,7 +274,7 @@ export default function TimelinePublicEventRow({
           {event.summary}
 
           <EventReferenceLinks
-            eventId={event.id}
+            wikiQuery={event.wiki_query}
             title={event.title}
             query={event.search}
             links={event.sources}

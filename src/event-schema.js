@@ -14,8 +14,10 @@ export const EVENT_TSV_HEADER = [
   "note",
 ];
 
-export const PUBLIC_EVENT_TSV_HEADER =
-  EVENT_TSV_HEADER;
+export const PUBLIC_EVENT_TSV_HEADER = [
+  ...EVENT_TSV_HEADER,
+  "wiki_query",
+];
 export const PERSONAL_EVENT_TSV_HEADER =
   EVENT_TSV_HEADER;
 

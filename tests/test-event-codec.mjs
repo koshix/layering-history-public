@@ -24,9 +24,9 @@ import {
   validatePublicEventRow,
 } from "../src/event-schema.js";
 
-assert.strictEqual(
+assert.deepEqual(
   PUBLIC_EVENT_TSV_HEADER,
-  EVENT_TSV_HEADER
+  [...EVENT_TSV_HEADER, "wiki_query"]
 );
 assert.strictEqual(
   PERSONAL_EVENT_TSV_HEADER,

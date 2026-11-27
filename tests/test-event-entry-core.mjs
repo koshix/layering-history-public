@@ -21,6 +21,7 @@ const row = (id, date, title) => ({
   sources: "",
   search: "",
   note: "",
+  wiki_query: "",
 });
 
 test("sortRowsByDate inserts an older event into chronological order", () => {
@@ -56,7 +57,10 @@ test("sortRowsByDate preserves order for equal dates", () => {
 test("serializeRows and readRows round-trip", () => {
   const rows = [
     row("a", "1950", "A"),
-    row("b", "1960", "B"),
+    {
+      ...row("b", "1960", "B"),
+      wiki_query: '人物名 OR "作品名"',
+    },
   ];
 
   assert.deepEqual(

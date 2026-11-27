@@ -116,40 +116,30 @@ console.log(
   `OK: Wikipedia検索語 ${cases.length}ケースを検査しました`
 );
 
-// 個別検索語とタイトル変更時の互換性。
-assert.equal(buildWikipediaQuery("Pythonを初めて一般公開――可読性と汎用性を重視するプログラミング言語", "", "1991-python-public-release"), "Python");
-assert.equal(buildWikipediaQuery("ワインベルグが平衡原理を発表、ハーディも独立に定式化――集団遺伝学の基準線", "", "1908-hardy-weinberg-equilibrium"), "ハーディー・ワインベルクの法則");
-assert.equal(buildWikipediaQuery("ガイム、ノボセロフらがグラフェンを単離し電界効果を実証", "", "2004-graphene-isolation"), "グラフェン");
-assert.equal(buildWikipediaQuery("ルジャンドルからガウスへ――最小二乗法で観測データから値を推定する", "", "1805-16vi2it"), "最小二乗法");
-assert.equal(buildWikipediaQuery("イタリア王国成立からローマ併合へ――イタリア統一", "", "1861-italian-unification"), "イタリア統一");
-assert.equal(buildWikipediaQuery("ADSLからFTTHへ、家庭のインターネットが常時・高速接続へ", "", "2000-flets-adsl"), "ADSL FTTH");
+// TSVで明示した検索語を優先する。
 
 assert.equal(
-  buildWikipediaQuery("新しい題名――説明", "",
-    "1991-python-public-release"),
-  "新しい題名"
+  buildWikipediaQuery(
+    "新しい題名――説明",
+    "YouTube用検索語",
+    '人物名 OR "作品名"'
+  ),
+  '人物名 OR "作品名"'
 );
 
 assert.equal(
-  buildWikipediaQuery("新しい題名――説明", "",
-    "unknown-event"),
-  "新しい題名"
+  buildWikipediaQuery("別の題名――説明", "", ""),
+  "別の題名"
 );
 
-console.log("OK: 個別検索語とタイトル変更互換性");
+assert.equal(
+  buildWikipediaQuery("別の題名――説明", "", null),
+  "別の題名"
+);
 
-assert.equal(buildWikipediaQuery("ドレーク井からスピンドルトップへ――石油が産業基盤になる", "", "1859-drake-spindletop-petroleum"), "石油産業");
+assert.equal(
+  buildWikipediaQuery("題名", "", "  A OR B  "),
+  "A OR B"
+);
 
-assert.equal(buildWikipediaQuery("ヘルツシュプルング＝ラッセル図からペインへ――恒星を温度・光度・組成で読む", "", "1911-1925-hr-diagram-payne"), "HR図");
-
-assert.equal(buildWikipediaQuery("東京電燈から九電力体制へ――電気が日本の基幹インフラになる", "", "1887-1w6fw9z"), "日本の電力会社");
-
-assert.equal(buildWikipediaQuery("NTT発足から国鉄分割民営化へ――公企業民営化の時代", "", "1985-ntt-privatization"), "民営化");
-
-assert.equal(buildWikipediaQuery("BigtableからDynamoへ、Web規模のデータを分散保存", "", "2006-1pgqppv"), "NoSQL");
-
-assert.equal(buildWikipediaQuery("o1からDeepSeek-R1へ――推論時の計算量を活用して性能を高める生成AI", "", "2024-reasoning-models-o1-deepseek-r1"), "DeepSeek-R1");
-
-assert.equal(buildWikipediaQuery("川久保玲・山本耀司がパリで発表、日本の前衛服飾が世界へ", "", "1981-h4ir7z"), "川久保玲 山本耀司");
-
-assert.equal(buildWikipediaQuery("インディアス新法からバリャドリード論争へ――先住民支配を再検討", "", "1542-new-laws-indies"), "バリャドリッド論争");
+console.log("OK: TSV検索語の優先と自動生成への復帰");

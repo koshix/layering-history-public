@@ -230,6 +230,12 @@ sources を1件ずつ入力します。空Enterで終了。
       await rl.question("note [任意]: ")
     );
 
+    const wikiQuery = clean(
+      await rl.question(
+        "wiki_query [Wikipedia用・任意、OR検索可]: "
+      )
+    );
+
     const id = eventId(year, title);
 
     if (rows.some(r => r.id === id)) {
@@ -262,6 +268,7 @@ sources を1件ずつ入力します。空Enterで終了。
       sources: sources.join("|"),
       search,
       note,
+      wiki_query: wikiQuery,
     };
 
     // 公開イベントschemaを最終的な正本として検証する。
@@ -280,6 +287,7 @@ sources を1件ずつ入力します。空Enterで終了。
     console.log(`  sources    ${row.sources || "(空)"}`);
     console.log(`  search     ${row.search || "(空)"}`);
     console.log(`  note       ${row.note || "(空)"}`);
+    console.log(`  wiki_query ${row.wiki_query || "(空)"}`);
 
     const answer = clean(
       await rl.question(

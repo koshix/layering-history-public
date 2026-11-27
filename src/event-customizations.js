@@ -28,6 +28,13 @@ function applyChanges(event, changes) {
     }
   }
 
+  if (
+    next.title !== event.title &&
+    !Object.hasOwn(changes, "wiki_query")
+  ) {
+    delete next.wiki_query;
+  }
+
   return next;
 }
 

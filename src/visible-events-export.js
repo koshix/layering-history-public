@@ -29,6 +29,7 @@ export function buildVisiblePublicExport(events, gradeLabel) {
     "sources",
     "search",
     "note",
+    "wiki_query",
     "age",
     "grade",
   ];
@@ -47,6 +48,7 @@ export function buildVisiblePublicExport(events, gradeLabel) {
     listCell(event.sources),
     event.search ?? "",
     event.note ?? "",
+    event.wiki_query ?? "",
     event.age,
     gradeLabel(eventYear(event)),
   ]);

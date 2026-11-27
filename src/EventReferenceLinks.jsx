@@ -2,14 +2,14 @@ import { buildWikipediaQuery } from "./event-reference-query.js";
 import { parseEventSourceItem } from "./event-schema.js";
 
 export default function EventReferenceLinks({
-  eventId,
+  wikiQuery,
   title,
   query,
   links,
   color,
 }) {
   const wikipediaQuery =
-    buildWikipediaQuery(title, query, eventId);
+    buildWikipediaQuery(title, query, wikiQuery);
 
   return (
     <>
@@ -24,7 +24,7 @@ export default function EventReferenceLinks({
         >
           {wikipediaQuery && (
           <a
-            href={`https://ja.wikipedia.org/w/index.php?search=${encodeURIComponent(wikipediaQuery)}`}
+            href={`https://ja.wikipedia.org/w/index.php?fulltext=1&search=${encodeURIComponent(wikipediaQuery)}`}
             target="_blank"
             rel="noopener noreferrer"
             style={{

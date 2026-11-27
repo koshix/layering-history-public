@@ -41,6 +41,9 @@ export function decodeEventRow(
       : {}),
     ...(row.search ? { search: row.search } : {}),
     ...(row.note ? { note: row.note } : {}),
+    ...(row.wiki_query && primary !== "me"
+      ? { wiki_query: row.wiki_query }
+      : {}),
   };
 }
 
@@ -71,5 +74,9 @@ export function encodeEventRow(
     sources: listCell(event.sources),
     search: String(event.search ?? ""),
     note: String(event.note ?? ""),
+    ...(event.wiki_query !== undefined &&
+        (forcePrimary ?? event.primary) !== "me"
+      ? { wiki_query: String(event.wiki_query ?? "") }
+      : {}),
   };
 }
