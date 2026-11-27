@@ -102,9 +102,10 @@ export function createAppRuntimeState({
   };
 }
 
-export function loadAppRuntimeState() {
+export function loadAppRuntimeState(
+  events = loadEvents()
+) {
   const config = loadConfig();
-  const events = loadEvents();
 
   const settingsStorage =
     typeof window !== "undefined"

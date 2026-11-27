@@ -1,4 +1,7 @@
-import { eventYear } from "./event-schema.js";
+import {
+  eventYear,
+  eventDisplayPeriod,
+} from "./event-schema.js";
 
 export default function TimelineEventRowShell({
   id,
@@ -18,6 +21,7 @@ export default function TimelineEventRowShell({
 }) {
   const hasAgeProjection =
     Number.isFinite(event.age);
+  const period = eventDisplayPeriod(event);
 
   return (
     <li
@@ -56,7 +60,41 @@ export default function TimelineEventRowShell({
             paddingTop: 3,
           }}
         >
-          {eventYear(event)}
+          <span data-event-start-year>
+            {period.startYear}
+          </span>
+          {period.hasPeriod && (
+            <span
+              data-event-period
+              style={{
+                display: "block",
+                fontSize: 10.5,
+                lineHeight: 1.3,
+              }}
+            >
+              {period.spansYears ? (
+                <>
+                  <span
+                    style={{
+                      display: "block",
+                      textAlign: "center",
+                    }}
+                  >
+                    〜
+                  </span>
+                  <span
+                    data-event-end-year
+                    style={{
+                      fontSize: 13,
+                      display: "block",
+                    }}
+                  >
+                    {period.endYear}
+                  </span>
+                </>
+              ) : "期間"}
+            </span>
+          )}
         </span>
 
         {hasAgeProjection && (

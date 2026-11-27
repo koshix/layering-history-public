@@ -1,5 +1,7 @@
 import { useState } from "react";
-import { eventYear } from "./event-schema.js";
+import {
+  formatEventPeriod,
+} from "./event-schema.js";
 import { CAT } from "./categories";
 import Icon from "./Icon";
 import { resolvePublicEventIcon } from "./event-icon.js";
@@ -436,9 +438,11 @@ export default function ThreadWindow({
                     fontWeight: 800,
                   }}
                 >
-                  {eventYear(
-                    dynamicFeedback.matches[0]
-                  )}　
+                  <span data-event-date-detail>
+                    {formatEventPeriod(
+                      dynamicFeedback.matches[0]
+                    )}
+                  </span>　
                   {dynamicFeedback.matches[0].title}
                 </div>
 

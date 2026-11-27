@@ -1,6 +1,9 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
-import { prepareEvents } from "./events-source";
+import {
+  prepareEvents,
+  loadEvents,
+} from "./events-source";
 import {
   loadConfig,
   prepareConfig,
@@ -9,16 +12,24 @@ import { recordAccess } from "./access-stats";
 import "./styles.css";
 
 async function bootstrap() {
-  // App.jsx を読み込む前に公開TSVを準備する。
-  // これにより App.jsx 内では従来どおり同期的に EVENTS を扱える。
-  await Promise.all([
-    prepareConfig(),
-    prepareEvents(),
-  ]);
+  const eventsResult = prepareEvents().then(
+    () => ({
+      events: loadEvents(),
+      eventsError: false,
+    }),
+    (error) => {
+      console.error(
+        "Public events loading failed:", error
+      );
 
-  void recordAccess({
-    endpoint: loadConfig().accessStats?.endpoint,
-  });
+      return {
+        events: null,
+        eventsError: true,
+      };
+    }
+  );
+
+  await prepareConfig();
 
   const threadWindowMode =
     typeof window !== "undefined" &&
@@ -29,13 +40,59 @@ async function bootstrap() {
     ? await import("./ThreadApp.jsx")
     : await import("./App.jsx");
 
-  createRoot(document.getElementById("root")).render(
-    <React.StrictMode>
-      <RootApp />
-    </React.StrictMode>
+  const root = createRoot(
+    document.getElementById("root")
   );
+
+  const render = (state) => {
+    root.render(
+      <React.StrictMode>
+        <RootApp {...state} />
+      </React.StrictMode>
+    );
+  };
+
+  render({
+    events: null,
+    eventsError: false,
+  });
+
+  const result = await eventsResult;
+
+  render(result);
+
+  if (!result.eventsError) {
+    void recordAccess({
+      endpoint: loadConfig().accessStats?.endpoint,
+    });
+  }
 }
 
 bootstrap().catch((err) => {
   console.error("Application bootstrap failed:", err);
+
+  const status =
+    document.getElementById("startup-status");
+
+  const message =
+    document.getElementById("startup-message");
+
+  if (!status || !message) return;
+
+  status.setAttribute("role", "alert");
+
+  message.textContent =
+    "年表データを読み込めませんでした。"
+    + "通信状態を確認して、もう一度お試しください。";
+
+  const retry = document.createElement("button");
+
+  retry.type = "button";
+  retry.textContent = "再読み込み";
+
+  retry.addEventListener("click", () => {
+    window.location.reload();
+  });
+
+  status.appendChild(retry);
 });

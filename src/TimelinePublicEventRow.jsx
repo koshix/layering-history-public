@@ -1,4 +1,9 @@
-import { eventYear } from "./event-schema.js";
+import {
+  eventYear,
+  eventDisplayPeriod,
+  formatEventPeriod,
+  formatEventLifeRange,
+} from "./event-schema.js";
 import { eventId } from "./event-links";
 import { CAT } from "./categories";
 import Icon from "./Icon";
@@ -35,6 +40,10 @@ export default function TimelinePublicEventRow({
 }) {
   const id = eventId(event);
   const isOpen = isEventOpen(id);
+  const period = eventDisplayPeriod(event);
+  const lifeRange = formatEventLifeRange(
+    event, gradeLabel
+  );
   const grade = gradeLabel(
     eventYear(event)
   );
@@ -185,8 +194,21 @@ export default function TimelinePublicEventRow({
               color: "#6b7280",
             }}
           >
-            日付：
-            {formatEventDate(event.date)}
+            {period.hasPeriod ? "期間：" : "日付："}
+            <span data-event-date-detail>
+              {formatEventPeriod(event, formatEventDate)}
+            </span>
+            {lifeRange && (
+              <div
+                data-event-life-range
+                style={{
+                  fontWeight: 500,
+                  marginTop: 2,
+                }}
+              >
+                人生段階：{lifeRange}
+              </div>
+            )}
           </div>
 
           {secondaryCats.length > 0 && (
@@ -252,6 +274,7 @@ export default function TimelinePublicEventRow({
           {event.summary}
 
           <EventReferenceLinks
+            eventId={event.id}
             title={event.title}
             query={event.search}
             links={event.sources}

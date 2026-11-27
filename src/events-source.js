@@ -18,7 +18,8 @@ export function parseEventsTsv(text) {
 export async function prepareEvents() {
   const res = await fetch(
     `${import.meta.env.BASE_URL}events.tsv`,
-    { cache: "no-store" }
+    // 保存済みTSVの鮮度をサーバーに毎回確認する。
+    { cache: "no-cache" }
   );
 
   if (!res.ok) {

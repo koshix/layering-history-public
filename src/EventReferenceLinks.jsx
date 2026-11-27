@@ -2,13 +2,14 @@ import { buildWikipediaQuery } from "./event-reference-query.js";
 import { parseEventSourceItem } from "./event-schema.js";
 
 export default function EventReferenceLinks({
+  eventId,
   title,
   query,
   links,
   color,
 }) {
   const wikipediaQuery =
-    buildWikipediaQuery(title, query);
+    buildWikipediaQuery(title, query, eventId);
 
   return (
     <>

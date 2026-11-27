@@ -208,6 +208,75 @@ export function eventYear(event) {
   );
 }
 
+
+// 表示専用。開始年による配置・集計には影響しない。
+export function eventDisplayPeriod(event) {
+  const start = String(event?.date ?? "");
+  const end = String(event?.end_date ?? "");
+  const startYear = eventYear(event);
+
+  const hasPeriod =
+    Boolean(end) &&
+    isValidEventDate(start) &&
+    isValidEventDate(end) &&
+    !isEndDateDefinitelyBeforeStart(start, end);
+
+  const endYear = hasPeriod
+    ? Number(end.slice(0, 4))
+    : startYear;
+
+  return {
+    start,
+    end: hasPeriod ? end : "",
+    startYear,
+    endYear,
+    hasPeriod,
+    spansYears: hasPeriod && startYear !== endYear,
+  };
+}
+
+export function formatEventDate(value) {
+  const [year, month, day] =
+    String(value ?? "").split("-");
+
+  if (!year) return "";
+
+  return `${Number(year)}年`
+    + (month ? `${Number(month)}月` : "")
+    + (day ? `${Number(day)}日` : "");
+}
+
+export function formatEventPeriod(
+  event,
+  formatDate = formatEventDate
+) {
+  const period = eventDisplayPeriod(event);
+  const start = formatDate(period.start);
+
+  return period.hasPeriod
+    ? `${start}〜${formatDate(period.end)}`
+    : start;
+}
+
+export function formatEventLifeRange(event, gradeLabel) {
+  const period = eventDisplayPeriod(event);
+
+  if (
+    !period.spansYears ||
+    !Number.isFinite(event.age) ||
+    typeof gradeLabel !== "function"
+  ) {
+    return "";
+  }
+
+  const first = gradeLabel(period.startYear);
+  const last = gradeLabel(period.endYear);
+
+  return first && last
+    ? `${first}〜${last}`
+    : "";
+}
+
 export function isValidEventDate(value) {
   const match =
     /^(\d{4})(?:-(\d{2})(?:-(\d{2}))?)?$/.exec(value);

@@ -1,3 +1,8 @@
+import {
+  eventDisplayPeriod,
+  formatEventPeriod,
+  formatEventLifeRange,
+} from "./event-schema.js";
 import { eventId } from "./event-links";
 import { CAT } from "./categories";
 import Icon from "./Icon";
@@ -21,6 +26,10 @@ export default function TimelinePersonalEventRow({
 }) {
   const id = eventId(event);
   const isOpen = isEventOpen(id);
+  const period = eventDisplayPeriod(event);
+  const lifeRange = formatEventLifeRange(
+    event, gradeLabel
+  );
 
   const headerContent = (
     <>
@@ -121,8 +130,21 @@ export default function TimelinePersonalEventRow({
               color: "#6b7280",
             }}
           >
-            日付：
-            {formatEventDate(event.date)}
+            {period.hasPeriod ? "期間：" : "日付："}
+            <span data-event-date-detail>
+              {formatEventPeriod(event, formatEventDate)}
+            </span>
+            {lifeRange && (
+              <div
+                data-event-life-range
+                style={{
+                  fontWeight: 500,
+                  marginTop: 2,
+                }}
+              >
+                人生段階：{lifeRange}
+              </div>
+            )}
           </div>
           {event.summary}
           {event.note && (

@@ -27,6 +27,7 @@ import {
 } from "./event-customization-operations.js";
 
 export default function useEventCustomizations({
+  enabled = true,
   events = [],
   mainCategories = [],
   onReplaced,
@@ -74,6 +75,8 @@ export default function useEventCustomizations({
   const eventCustomizationFileInputRef = useRef(null);
 
   useEffect(() => {
+    if (!enabled) return;
+
     let cancelled = false;
 
     workspaceStore.eventCustomizations.load()
@@ -97,7 +100,7 @@ export default function useEventCustomizations({
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [enabled, events]);
 
   const persistEventCustomizations = async (next) => {
     await workspaceStore.eventCustomizations.save(next);

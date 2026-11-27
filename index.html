@@ -8,7 +8,21 @@
     <meta name="description" content="公開年表と任意の個人史を、年齢・学齢期・人生段階に重ねて表示するインタラクティブ年表です。" />
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <main id="startup-status"
+        role="status"
+        style="max-width:640px;margin:15vh auto;padding:24px;font-family:system-ui,sans-serif;color:#374151;line-height:1.7">
+        <div style="font-size:18px;font-weight:700">
+          Layering History — 自分史プロジェクション
+        </div>
+        <p id="startup-message" style="font-size:14px">
+          年表データを読み込んでいます…
+        </p>
+      </main>
+      <noscript>
+        年表の表示にはJavaScriptが必要です。
+      </noscript>
+    </div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

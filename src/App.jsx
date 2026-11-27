@@ -32,13 +32,13 @@ import TimelineSettingsSection from "./TimelineSettingsSection";
 import useVisibleEventsExport from "./useVisibleEventsExport";
 import useAdministratorData from "./useAdministratorData";
 import AppHeader from "./AppHeader";
+import StartupStatus from "./StartupStatus";
 import AppFooter from "./AppFooter";
 import TimelineGroupList from "./TimelineGroupList";
 import TimelineViewControls from "./TimelineViewControls";
 
 const {
   config: CONFIG,
-  events: EVENTS,
   saved: SAVED,
   initialBirth: INITIAL_BIRTH,
   initialMonth: INITIAL_MONTH,
@@ -50,7 +50,7 @@ const {
   showBeginnerGuide: SHOW_BEGINNER_GUIDE,
   settingsAutoSaveEnabled:
     SETTINGS_AUTO_SAVE_ENABLED,
-} = loadAppRuntimeState();
+} = loadAppRuntimeState([]);
 
 const APP_VERSION = __APP_VERSION__;
 const APP_UPDATED_DATE = __APP_UPDATED_DATE__;
@@ -136,12 +136,21 @@ const ACCESS_STATS_URL = String(
 
 // ---- テーマでたどる(年表に散らばった項目を、一本の流れとしてたどる) ----
 // 永久ID { id } からの解決規則は thread-model.js を正本とする。
-const THREAD_LIST = buildConfiguredThreads(
-  THREADS,
-  EVENTS
-);
+const EMPTY_EVENTS = [];
 
-export default function App() {
+export default function App({
+  events = null,
+  eventsError = false,
+}) {
+  const eventsReady = events !== null;
+  const EVENTS = events ?? EMPTY_EVENTS;
+
+  const THREAD_LIST = useMemo(
+    () => eventsReady
+      ? buildConfiguredThreads(THREADS, EVENTS)
+      : [],
+    [eventsReady, EVENTS]
+  );
   const lifeSettings = useLifeSettings({
     initialBirth: INITIAL_BIRTH,
     initialMonth: INITIAL_MONTH,
@@ -167,6 +176,7 @@ export default function App() {
   } = useOpenEvents();
 
   const eventCustomization = useEventCustomizations({
+    enabled: eventsReady,
     events: EVENTS,
     mainCategories: MAIN_CATS,
     onReplaced: () => {
@@ -279,7 +289,7 @@ export default function App() {
   });
 
   useEffect(() => {
-    if (!SETTINGS_AUTO_SAVE_ENABLED) {
+    if (!eventsReady || !SETTINGS_AUTO_SAVE_ENABLED) {
       return;
     }
 
@@ -318,6 +328,7 @@ export default function App() {
       );
     }
   }, [
+    eventsReady,
     birth,
     month,
     education,
@@ -355,6 +366,8 @@ export default function App() {
   // ?e=<項目ID> で共有されたリンクは、その項目を開いた状態で表示する
   // ?t=<テーマのキー> ならそのテーマを開いた状態で始める
   useEffect(() => {
+    if (!eventsReady) return;
+
     const q = new URLSearchParams(window.location.search);
     const th = findThreadByKey(
       THREAD_LIST,
@@ -382,7 +395,7 @@ export default function App() {
       document.getElementById(`ev-${id}`)?.scrollIntoView({ block: "center" });
     }, 150);
     return () => clearTimeout(timer);
-  }, []);
+  }, [eventsReady]);
 
   const effectiveEvents = useMemo(
     () =>
@@ -390,7 +403,7 @@ export default function App() {
         EVENTS,
         eventCustomizations
       ).events,
-    [eventCustomizations]
+    [EVENTS, eventCustomizations]
   );
 
   const effectiveStats = useMemo(
@@ -443,6 +456,8 @@ export default function App() {
   const previousStageKeysRef = useRef(null);
 
   useEffect(() => {
+    if (!eventsReady) return;
+
     const currentKeys =
       grouped.controlTargets.allStageKeys;
     const previousKeys =
@@ -486,6 +501,7 @@ export default function App() {
       collapseStages(currentKeys);
     }
   }, [
+    eventsReady,
     grouped.controlTargets.allStageKeys,
     closedStages,
     collapseStages,
@@ -523,9 +539,10 @@ export default function App() {
       <div style={{ maxWidth: 720, margin: "0 auto", padding: "28px 16px 64px" }}>
         <AppHeader
           appTitle={APP_TITLE}
-          threadCount={THREAD_LIST.length}
-          eventCount={EVENTS.length}
-          effectiveStats={effectiveStats}
+          threadCount={eventsReady
+            ? THREAD_LIST.length : THREADS.length}
+          eventCount={eventsReady ? EVENTS.length : null}
+          effectiveStats={eventsReady ? effectiveStats : null}
           hashtag={HASHTAG}
           shareUrl={SHARE_URL}
           showBeginnerGuide={SHOW_BEGINNER_GUIDE}
@@ -564,6 +581,12 @@ export default function App() {
             miniBtn,
           }}
         />
+        {!eventsReady && (
+          <StartupStatus error={eventsError} />
+        )}
+
+        {eventsReady && (
+        <>
         <TimelineViewControls
           timeline={grouped}
           filters={{
@@ -670,6 +693,9 @@ export default function App() {
           }}
         />
 
+
+        </>
+        )}
 
         <AppFooter
           appVersion={APP_VERSION}

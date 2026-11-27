@@ -59,7 +59,7 @@ export default function AppHeader({
               labelOnly
               hashtag={hashtag}
               url={shareUrl}
-              text={`${appTitle}——${threadCount}のテーマで時代を自分の年齢から読む(${eventCount}項目) ${hashtag}`}
+              text={`${appTitle}——${threadCount}のテーマで時代を自分の年齢から読む${eventCount == null ? "" : `(${eventCount}項目)`} ${hashtag}`}
             />
           </div>
         </div>
@@ -67,7 +67,9 @@ export default function AppHeader({
           あなたの人生を、世界や日本の出来事の年表に重ねて見るアプリです。
         </div>
         <div style={{ fontSize: 11.5, color: "#8a8f98", marginTop: 8, fontFamily: mono }}>
-          全{effectiveStats.count}項目・解説{effectiveStats.chars.toLocaleString()}字
+          {effectiveStats
+            ? `全${effectiveStats.count}項目・解説${effectiveStats.chars.toLocaleString()}字`
+            : "年表データ準備中"}
         </div>
       </header>
 

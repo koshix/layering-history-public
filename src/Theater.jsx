@@ -1,4 +1,8 @@
-import { eventYear } from "./event-schema.js";
+import {
+  eventYear,
+  eventDisplayPeriod,
+  formatEventPeriod,
+} from "./event-schema.js";
 import { validYear } from "./life-stages.js";
 import { useEffect, useRef, useState } from "react";
 import Icon from "./Icon";
@@ -131,6 +135,7 @@ export default function Theater({
         <div style={{ maxWidth: 640, margin: "0 auto" }}>
           {evs.map((ev, i) => {
             const active = i === idx;
+            const period = eventDisplayPeriod(ev);
             const color = CAT[catKey(ev)]?.bg || "#6b7280";
             return (
               <div
@@ -149,7 +154,39 @@ export default function Theater({
                       color: "#8a93a3", width: 48, flexShrink: 0,
                     }}
                   >
-                    {eventYear(ev)}
+                    <span data-event-start-year>
+                      {period.startYear}
+                    </span>
+                    {period.hasPeriod && (
+                      <span
+                        data-event-period
+                        style={{
+                          display: "block",
+                          fontSize: 10.5,
+                          lineHeight: 1.3,
+                        }}
+                      >
+                        {period.spansYears ? (
+                          <>
+                            <span style={{
+                              display: "block",
+                              textAlign: "center",
+                            }}>
+                              〜
+                            </span>
+                            <span
+                              data-event-end-year
+                              style={{
+                                display: "block",
+                                fontSize: active ? 15 : 13,
+                              }}
+                            >
+                              {period.endYear}
+                            </span>
+                          </>
+                        ) : "期間"}
+                      </span>
+                    )}
                   </span>
                   {birthConfigured && (
                     <span
@@ -179,6 +216,19 @@ export default function Theater({
                       fontSize: 13.5, lineHeight: 1.85, color: "#4b5563",
                     }}
                   >
+                    {period.hasPeriod && (
+                      <div
+                        data-event-date-detail
+                        style={{
+                          fontSize: 11.5,
+                          fontWeight: 700,
+                          color: "#6b7280",
+                          marginBottom: 5,
+                        }}
+                      >
+                        期間：{formatEventPeriod(ev)}
+                      </div>
+                    )}
                     {ev.summary}
                   </div>
                 )}
